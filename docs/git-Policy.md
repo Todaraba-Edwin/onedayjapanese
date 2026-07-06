@@ -33,7 +33,8 @@ japanese-study/              # Git 루트
 │   └── v.0.1/
 │       ├── v.0.1.1.md
 │       ├── v.0.1.2.md
-│       └── v.0.1.3.md
+│       ├── v.0.1.3.md
+│       └── v.0.1.4.md
 ├── japanese-study/          # Xcode 프로젝트
 ├── reperence/               # UI 레퍼런스 이미지
 └── buildServer.json
@@ -161,20 +162,46 @@ docs: v.0.1.1 릴리스 노트 및 git 정책 수립
 
 ## 6. 태그 & Push 절차
 
+### 원격 저장소 (`origin`)
+
+| 항목 | 값 |
+|------|-----|
+| 호스트 | GitHub |
+| URL | `https://github.com/Todaraba-Edwin/onedayjapanese.git` |
+| 기본 브랜치 | `main` |
+
+최초 연결 (원격이 없을 때):
+
+```bash
+git remote add origin https://github.com/Todaraba-Edwin/onedayjapanese.git
+```
+
+### 릴리스 절차 (로컬 → 원격)
+
 ```bash
 # 1) Release 문서 + docs/README.md 갱신 후 스테이징
-git add Releases/ docs/README.md docs/ ...
+git add Releases/ docs/README.md docs/git-Policy.md ...
 
 # 2) 커밋
-git commit -m "docs: v.0.1.1 릴리스 노트 및 기능 스냅샷"
+git commit -m "docs: v.0.1.4 릴리스 노트 및 문서 인덱스 갱신"
 
-# 3) annotated tag (권장)
-git tag -a v.0.1.1 -m "v.0.1.1 — Alphabet 탭, 파도 UI, 문서"
+# 3) annotated tag (권장) — Release 문서가 포함된 커밋에 붙임
+git tag -a v.0.1.4 -m "v.0.1.4 — 문서 인덱스·원격 태그 정책"
 
-# 4) push
+# 4) 원격 반영 — 브랜치와 태그를 모두 push
 git push origin main
-git push origin v.0.1.1
+git push origin --tags
 ```
+
+### 원격 push 규칙
+
+- **브랜치**: 릴리스 커밋 후 `git push origin main`으로 `main`을 먼저 올린다.
+- **태그**: 새 태그 생성 직후 `origin`에 반영한다. 로컬에만 태그를 두지 않는다.
+- **전체 태그 동기화**: `git push origin --tags` — 로컬의 annotated·lightweight 태그를 원격에 일괄 등록·갱신한다.
+- **단일 태그만 올릴 때**: `git push origin v.0.1.4`
+- **확인**: `git ls-remote --tags origin` — 원격 태그 목록 조회
+
+> HTTP push 시 `RPC failed; HTTP 400`이 나면 `git config http.postBuffer 524288000` 후 재시도한다.
 
 ### 태그 종류
 
@@ -191,9 +218,10 @@ git push origin v.0.1.1
 
 ```
 docs/git-Policy.md 정책에 따라
-- Releases/v.0.1/v.0.1.4.md 작성
-- docs/README.md — Release 표·현재 구현 상태를 v.0.1.4로 갱신
-- 커밋 후 annotated tag v.0.1.4 생성
+- Releases/v.0.1/v.0.1.5.md 작성
+- docs/README.md — Release 표·현재 구현 상태를 v.0.1.5로 갱신
+- 커밋 후 annotated tag v.0.1.5 생성
+- git push origin main && git push origin --tags
 ```
 
 루트 `agent.md`에서 문서·Release 명명 규칙을 빠르게 참조할 수 있습니다.
