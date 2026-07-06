@@ -106,6 +106,23 @@ Releases/v.{MAJOR}.{MINOR}/v.{MAJOR}.{MINOR}.{PATCH}.md
 - 태그 생성 **전** Release 문서를 먼저 작성·커밋
 - 태그는 Release 문서가 포함된 커밋에 붙임
 
+### `docs/README.md` 갱신 (필수)
+
+새 버전 태그를 올릴 때마다 `docs/README.md`도 **같은 커밋**에 반영한다. Release 노트만 추가하고 문서 인덱스를 방치하지 않는다.
+
+| 갱신 대상 | 내용 |
+|-----------|------|
+| **Release 노트** 표 | 새 버전 행 추가 — `Releases/v.{MAJOR}.{MINOR}/v.{MAJOR}.{MINOR}.{PATCH}.md` 링크 |
+| **현재 구현 상태** 절 | 제목의 버전·날짜를 최신 태그로 교체 |
+| **현재 구현 상태** 본문 | 해당 릴리스의 Added·Changed·Fixed 요약을 반영 (앱 기능·브랜드·문서 변경 포함) |
+
+작성 순서 권장:
+
+1. `Releases/.../v.x.y.z.md` 작성
+2. `docs/README.md` — Release 표 + 현재 구현 상태 갱신
+3. (필요 시) `docs/app-desc.md` 등 연관 문서
+4. 한 커밋으로 스테이징 후 태그
+
 ---
 
 ## 5. 커밋 규칙
@@ -145,8 +162,8 @@ docs: v.0.1.1 릴리스 노트 및 git 정책 수립
 ## 6. 태그 & Push 절차
 
 ```bash
-# 1) Release 문서 작성 후 스테이징
-git add Releases/ docs/ ...
+# 1) Release 문서 + docs/README.md 갱신 후 스테이징
+git add Releases/ docs/README.md docs/ ...
 
 # 2) 커밋
 git commit -m "docs: v.0.1.1 릴리스 노트 및 기능 스냅샷"
@@ -174,8 +191,9 @@ git push origin v.0.1.1
 
 ```
 docs/git-Policy.md 정책에 따라
-- Releases/v.0.1/v.0.1.2.md 작성
-- 커밋 후 annotated tag v.0.1.2 생성
+- Releases/v.0.1/v.0.1.4.md 작성
+- docs/README.md — Release 표·현재 구현 상태를 v.0.1.4로 갱신
+- 커밋 후 annotated tag v.0.1.4 생성
 ```
 
 루트 `agent.md`에서 문서·Release 명명 규칙을 빠르게 참조할 수 있습니다.

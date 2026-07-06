@@ -17,6 +17,8 @@
 |------|------|
 | v.0.0.0 | [`../Releases/v.0.0/v.0.0.0.md`](../Releases/v.0.0/v.0.0.0.md) |
 | v.0.1.1 | [`../Releases/v.0.1/v.0.1.1.md`](../Releases/v.0.1/v.0.1.1.md) |
+| v.0.1.2 | [`../Releases/v.0.1/v.0.1.2.md`](../Releases/v.0.1/v.0.1.2.md) |
+| v.0.1.3 | [`../Releases/v.0.1/v.0.1.3.md`](../Releases/v.0.1/v.0.1.3.md) |
 
 에이전트 진입 문서: [`../agent.md`](../agent.md)
 
@@ -25,10 +27,12 @@
 - UI 레퍼런스: [`../reperence/layout_01.png`](../reperence/layout_01.png)
 - Xcode 프로젝트: [`../japanese-study/`](../japanese-study/)
 
-## 현재 구현 상태 (v.0.1.1 — 2026-07-06)
+## 현재 구현 상태 (v.0.1.3 — 2026-07-06)
 
+- **앱 브랜드**: 홈 화면 표시 이름 **원데이재페니즈**, 번들 ID `edwin.OneDayJapanese`
 - **Alphabet** 탭: 히라가나 · 가타카나 진입
 - **히라가나 Ch.01**: 기본 50음 — 콘텐츠 준비 중
 - **히라가나 Ch.02**: 장음 · 촉음 · 요음 — 예시·콘텐츠 준비 중
 - **가타카나**: 플레이스홀더
 - **파도 무드 UI** + 디자인 시스템 적용 완료
+- **Git 정책**: 커밋 메시지 한글 작성 규칙 (`git-Policy.md`)
