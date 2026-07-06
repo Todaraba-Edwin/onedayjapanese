@@ -31,7 +31,8 @@ japanese-study/              # Git 루트
 │   ├── v.0.0/
 │   │   └── v.0.0.0.md
 │   └── v.0.1/
-│       └── v.0.1.1.md
+│       ├── v.0.1.1.md
+│       └── v.0.1.2.md
 ├── japanese-study/          # Xcode 프로젝트
 ├── reperence/               # UI 레퍼런스 이미지
 └── buildServer.json
@@ -124,6 +125,11 @@ Releases/v.{MAJOR}.{MINOR}/v.{MAJOR}.{MINOR}.{PATCH}.md
 | `style` | UI·디자인 (로직 변경 없음) |
 | `refactor` | 리팩터링 |
 | `chore` | 빌드·설정 |
+
+### 언어
+
+- 커밋 메시지 **요약·본문은 한글**로 작성한다.
+- `type` 접두사(`feat`, `fix`, `docs` 등)만 영문 소문자를 유지한다.
 
 ### 예시
 
