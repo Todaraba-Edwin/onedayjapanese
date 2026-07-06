@@ -105,6 +105,7 @@ japanese-study/japanese-study/
 | `AppColor.waveSkyTop` | 하늘·네비 틴트 |
 | `AppColor.waveDeep` | 심해·타이틀 |
 | `AppColor.waveFoam` | 글래스 카드 |
+| `AppSpacing.menuCardStack` | 16pt — 스택형 메뉴 카드 간격 (Alphabet·챕터 공통) |
 
 상세: [`docs/design.md`](docs/design.md)
 

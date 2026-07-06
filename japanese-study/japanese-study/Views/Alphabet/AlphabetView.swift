@@ -13,30 +13,34 @@ struct AlphabetView: View {
                 VStack(alignment: .leading, spacing: AppSpacing.large) {
                     AlphabetIntroHeader()
 
-                    VStack(spacing: AppSpacing.medium) {
+                    VStack(spacing: AppSpacing.menuCardStack) {
                         NavigationLink {
                             HiraganaHomeView()
                         } label: {
-                            alphabetMenuCard(
-                                japaneseTitle: "ひらがな",
-                                koreanTitle: "히라가나",
-                                subtitle: "기본 음절 · 장음 · 촉음 · 요음",
-                                systemImage: "textformat.abc",
-                                tintColor: AppColor.accentHiragana
-                            )
+                            NavigationMenuCard {
+                                AlphabetMenuRow(
+                                    japaneseTitle: "ひらがな",
+                                    koreanTitle: "히라가나",
+                                    subtitle: "기본 음절 · 장음 · 촉음 · 요음",
+                                    systemImage: "textformat.abc",
+                                    tintColor: AppColor.accentHiragana
+                                )
+                            }
                         }
                         .buttonStyle(.plain)
 
                         NavigationLink {
                             KatakanaHomeView()
                         } label: {
-                            alphabetMenuCard(
-                                japaneseTitle: "カタカナ",
-                                koreanTitle: "가타카나",
-                                subtitle: "외래어·강조 표기",
-                                systemImage: "textformat.abc.dottedunderline",
-                                tintColor: AppColor.accentKatakana
-                            )
+                            NavigationMenuCard {
+                                AlphabetMenuRow(
+                                    japaneseTitle: "カタカナ",
+                                    koreanTitle: "가타카나",
+                                    subtitle: "외래어·강조 표기",
+                                    systemImage: "textformat.abc.dottedunderline",
+                                    tintColor: AppColor.accentKatakana
+                                )
+                            }
                         }
                         .buttonStyle(.plain)
                     }
@@ -55,33 +59,6 @@ struct AlphabetView: View {
         .appScreenBackground()
         .appNavigationStyle()
         .tint(AppColor.primary)
-    }
-
-    /// 파도 위 글래스 카드 형태의 메뉴 행
-    private func alphabetMenuCard(
-        japaneseTitle: String,
-        koreanTitle: String,
-        subtitle: String,
-        systemImage: String,
-        tintColor: Color
-    ) -> some View {
-        HStack(spacing: AppSpacing.small) {
-            AlphabetMenuRow(
-                japaneseTitle: japaneseTitle,
-                koreanTitle: koreanTitle,
-                subtitle: subtitle,
-                systemImage: systemImage,
-                tintColor: tintColor
-            )
-
-            Spacer(minLength: AppSpacing.small)
-
-            Image(systemName: "chevron.right")
-                .font(.caption.bold())
-                .foregroundStyle(AppColor.waveNear.opacity(0.55))
-        }
-        .padding(AppSpacing.medium)
-        .appCardStyle()
     }
 }
 

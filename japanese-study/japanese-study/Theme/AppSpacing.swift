@@ -13,6 +13,8 @@ enum AppSpacing {
     static let large: CGFloat = 24
     static let extraLarge: CGFloat = 32
     static let screenHorizontal: CGFloat = 20
+    /// 스택형 네비게이션 카드 간 간격 (Alphabet 메뉴·챕터 목록 공통)
+    static let menuCardStack: CGFloat = medium
     static let cardRadius: CGFloat = 16
     static let chipRadius: CGFloat = 8
     static let badgeRadius: CGFloat = 10

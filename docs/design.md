@@ -124,15 +124,45 @@
 |------|-----|------|
 | `spacingXS` | 4pt | 아이콘-텍스트 미세 간격 |
 | `spacingS` | 8pt | 칩·태그 간격 |
-| `spacingM` | 16pt | 카드 내부 패딩, 리스트 행 |
+| `spacingM` | 16pt | 카드 내부 패딩, **스택형 메뉴 카드 간격** |
 | `spacingL` | 24pt | 섹션 간격 |
 | `spacingXL` | 32pt | 화면 상하 여백 |
 | `screenHorizontal` | 20pt | 화면 좌우 기본 마진 |
+| `menuCardStack` | 16pt (`spacingM`와 동일) | Alphabet·챕터 등 **세로 스택 카드 간격** |
+
+### 스택형 네비게이션 카드 간격 (Design Rule)
+
+동일 계층의 선택 카드(히라가나/가타카나, Ch.01/Ch.02 등)는 **항상 같은 간격**을 쓴다.
+
+| 항목 | 토큰 | 값 | 적용 화면 |
+|------|------|-----|-----------|
+| 카드 **사이** 간격 | `AppSpacing.menuCardStack` | **16pt** | Alphabet 히라가나↔가타카나, 히라가나 홈 Ch.01↔Ch.02 |
+| 카드 **내부** 패딩 | `AppSpacing.medium` | **16pt** | `NavigationMenuCard` |
+| 카드 **바깥** 좌우 | `AppSpacing.screenHorizontal` | **20pt** | ScrollView 콘텐츠 |
+| 섹션(헤더↔카드 묶음) 간격 | `AppSpacing.large` | **24pt** | Alphabet 인트로↔메뉴 카드 |
+
+**구현 패턴**
+
+```swift
+ScrollView {
+    VStack(spacing: AppSpacing.menuCardStack) {
+        NavigationLink { ... } label: {
+            NavigationMenuCard { /* AlphabetMenuRow 또는 ChapterRow */ }
+        }
+        .buttonStyle(.plain)
+    }
+    .padding(.horizontal, AppSpacing.screenHorizontal)
+    .padding(.vertical, AppSpacing.small)
+}
+```
+
+> `List` inset grouped는 시스템 기본 행 간격이 커서 **메뉴·챕터 목록에는 사용하지 않는다.**  
+> 대신 `ScrollView` + `VStack` + `NavigationMenuCard` + `.appCardStyle()` 조합을 쓴다.
 
 ### 그리드
 
 - **문자 카드**: 2열 (`LazyVGrid`, minimum 150pt), 간격 12~16pt
-- **챕터 목록**: 단일 열 리스트, 행 높이 ~72pt
+- **챕터 목록**: `ScrollView` + `VStack(spacing: menuCardStack)` 카드 스택, 행 높이 ~72pt
 - **예시 단어(Ch.02)**: `FlowLayout`, 칩 간격 8pt
 
 ---
@@ -188,7 +218,8 @@
 
 - 배경: `surface`, radius 16, padding `spacingM`
 - 아이콘: 36×36, `accentHiragana` / `accentKatakana`
-- List inset grouped 스타일 또는 `ScrollView` + `VStack` 카드
+- 래퍼: `NavigationMenuCard` — chevron + `appCardStyle()`
+- 카드 스택: `VStack(spacing: menuCardStack)` (**16pt**)
 
 ### 6.4 챕터 행 (`ChapterRow`)
 
@@ -200,7 +231,8 @@
 ```
 
 - Ch 뱃지: 44×44, `primary` 배경, `textOnPrimary`
-- 전체를 카드로 감싸 레퍼런스 product row와 유사한 터치 영역 확보
+- `NavigationMenuCard`로 감싸 Alphabet 메뉴 카드와 **동일 간격·스타일** 유지
+- 히라가나 홈: Ch.01 · Ch.02를 `menuCardStack`(16pt) 간격으로 세로 스택
 
 ### 6.5 문자 학습 카드 (Ch.01 예정)
 
@@ -252,7 +284,7 @@
 | 요소 | 적용 |
 |------|------|
 | Title | ひらがな |
-| 목록 | Ch.01 · Ch.02 카드 행 |
+| 목록 | Ch.01 · Ch.02 — `NavigationMenuCard` 스택, 간격 `menuCardStack` (16pt) |
 | 진행률 (추후) | `accentGold` 또는 progress bar |
 
 ### Ch.01 / Ch.02
@@ -299,6 +331,8 @@
 - [x] `AppColor.swift`로 토큰 중앙 관리
 - [x] `AccentColor` → `#3B9EFF` 로 업데이트
 - [x] `AlphabetMenuRow` / `ChapterRow` 테마 색상 적용
+- [x] 스택형 메뉴 카드 간격 규칙 (`menuCardStack` 16pt) — Alphabet · 히라가나 홈
+- [x] `NavigationMenuCard` 공통 래퍼
 - [ ] Navigation bar / toolbar primary 배경 (선택)
 - [ ] Ch.01 문자 카드 그리드 컴포넌트
 

@@ -8,17 +8,24 @@ import SwiftUI
 /// 히라가나 챕터 목록
 struct HiraganaHomeView: View {
     var body: some View {
-        List(AlphabetChapter.hiraganaChapters) { chapter in
-            // navigationDestination은 NavigationStack 루트에 있어야 해서
-            // 푸시된 화면에서는 NavigationLink(destination:) 방식을 사용
-            NavigationLink {
-                chapterDestination(for: chapter)
-            } label: {
-                ChapterRow(chapter: chapter)
+        ScrollView {
+            VStack(spacing: AppSpacing.menuCardStack) {
+                ForEach(AlphabetChapter.hiraganaChapters) { chapter in
+                    // navigationDestination은 NavigationStack 루트에 있어야 해서
+                    // 푸시된 화면에서는 NavigationLink(destination:) 방식을 사용
+                    NavigationLink {
+                        chapterDestination(for: chapter)
+                    } label: {
+                        NavigationMenuCard {
+                            ChapterRow(chapter: chapter)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                }
             }
-            .appGlassRowBackground()
+            .padding(.horizontal, AppSpacing.screenHorizontal)
+            .padding(.vertical, AppSpacing.small)
         }
-        .appListStyle()
         .appScreenBackground()
         .navigationTitle("ひらがな")
         .navigationBarTitleDisplayMode(.large)
