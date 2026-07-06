@@ -1,10 +1,12 @@
-# App Description — japanese-study
+# App Description — 원데이재페니즈
 
 ## 1. 앱 개요
 
 | 항목 | 내용 |
 |------|------|
-| **앱 이름** | japanese-study |
+| **앱 이름 (표시)** | 원데이재페니즈 |
+| **영문명** | One Day Japanese |
+| **번들 ID** | `edwin.OneDayJapanese` |
 | **플랫폼** | iOS (SwiftUI) |
 | **목적** | 일본어 초보자가 문자(히라가나·가타카나)부터 체계적으로 학습 |
 | **언어** | UI: 한국어 · 학습 콘텐츠: 일본어(히라가나/가타카나) + 로마자 |
@@ -107,8 +109,8 @@ TabView
 
 ```
 japanese-study/japanese-study/
+├── JapaneseStudyApp.swift   # 앱 진입점
 ├── ContentView.swift
-├── japanese_studyApp.swift
 ├── Models/
 │   └── AlphabetChapter.swift
 └── Views/Alphabet/
@@ -149,6 +151,8 @@ japanese-study/japanese-study/
 
 | 구분 | 규칙 | 예 |
 |------|------|-----|
+| 앱 표시 이름 (홈 화면) | 한글 브랜드명 | 원데이재페니즈 |
+| 번들 ID | 역방향 도메인, 출시 후 변경 불가 | `edwin.OneDayJapanese` |
 | 화면 제목 (일본어) | 실제 문자 사용 | ひらがな, カタカナ |
 | 부제 (한국어) | 짧은 설명 | 히라가나, 가타카나 |
 | 챕터 ID | `{script}-ch{nn}` | `hiragana-ch01` |
@@ -156,7 +160,45 @@ japanese-study/japanese-study/
 
 ---
 
-## 8. 비목표 (현 단계)
+## 8. App Store 등록·검색
+
+### 번들 ID — 어디서, 어떻게 바꾸나
+
+번들 ID는 **사용자 검색에 쓰이지 않습니다.** Apple이 앱을 식별하는 고유 주소입니다.
+
+| 단계 | 작업 |
+|------|------|
+| **1. Xcode** | `project.pbxproj` → `PRODUCT_BUNDLE_IDENTIFIER` (현재: `edwin.OneDayJapanese`) |
+| **2. Apple Developer** | [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/identifiers/list) → App IDs → `edwin.OneDayJapanese` 등록 |
+| **3. App Store Connect** | 새 앱 생성 시 위 번들 ID 선택 |
+| **출시 후** | **번들 ID 변경 불가** — 바꾸려면 새 앱 등록(리뷰·다운로드 이력 분리) |
+
+> 아직 스토어 미출시 상태이므로 지금 번들 ID를 정하는 것이 적기입니다.
+
+### App Store 검색 — 사용자가 찾게 하는 방법
+
+검색은 **App Store Connect 메타데이터**로 조정합니다. (번들 ID와 무관)
+
+| 필드 | 글자 수 | 용도 | 권장 예시 |
+|------|---------|------|-----------|
+| **이름** | 30자 | 검색·노출 제목 | `원데이재페니즈` 또는 `One Day Japanese` |
+| **부제** | 30자 | 부가 설명·키워드 | `매일 배우는 일본어 문자` |
+| **키워드** | 100자 | 검색어 (쉼표 구분, 띄어쓰기 없음) | `일본어,히라가나,가타카나,원데이재페니즈,OneDayJapanese,일본어공부` |
+
+- **한글 검색**: 이름·부제·키워드에 `원데이재페니즈`, `일본어`, `히라가나` 등 포함
+- **영문 검색**: 이름 또는 키워드에 `OneDayJapanese`, `Japanese`, `hiragana` 포함
+- 키워드는 앱 이름과 중복되어도 되지만, 100자 한도 안에서 쉼표로만 구분
+
+### 홈 화면 vs 스토어 이름
+
+| 위치 | 설정 위치 | 현재 값 |
+|------|-----------|---------|
+| 아이콘 아래 (기기) | Xcode `INFOPLIST_KEY_CFBundleDisplayName` | 원데이재페니즈 |
+| App Store 목록 | App Store Connect **이름** | 출시 시 등록 |
+
+---
+
+## 9. 비목표 (현 단계)
 
 - JLPT 문법·어휘 전 과정 커리큘럼
 - 소셜·멀티플레이어
