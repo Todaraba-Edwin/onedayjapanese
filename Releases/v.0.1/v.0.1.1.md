@@ -47,7 +47,7 @@
 ## 관련 파일
 
 ```
-japenese-study/japenese-study/
+japanese-study/japanese-study/
 ├── ContentView.swift
 ├── Theme/
 │   ├── AppColor.swift

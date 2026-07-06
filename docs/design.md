@@ -1,4 +1,4 @@
-# Design System — japenese-study
+# Design System — japanese-study
 
 레퍼런스 [`reperence/layout_01.png`](../reperence/layout_01.png)를 기준으로, 일본어 학습 앱에 맞게 재해석한 디자인 가이드입니다.
 
@@ -328,7 +328,7 @@
 ## 11. 레퍼런스 대비 매핑 요약
 
 ```
-layout_01.png          →  japenese-study
+layout_01.png          →  japanese-study
 ─────────────────────────────────────────
 Sign In 블루 헤더      →  챕터/문자 화면 헤더
 Product 카드 그리드    →  50음도 문자 카드 그리드

@@ -1,0 +1,19 @@
+# SwiftLint — japanese-study
+# https://github.com/realm/SwiftLint
+
+included:
+  - japanese-study/japanese-study
+
+excluded:
+  - japanese-study/japanese-study.xcodeproj
+
+identifier_name:
+  min_length:
+    warning: 3
+    error: 2
+  allowed_symbols: ["_"]
+
+type_name:
+  min_length:
+    warning: 3
+    error: 2

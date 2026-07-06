@@ -1,6 +1,6 @@
-# japenese-study 문서
+# japanese-study 문서
 
-일본어 학습 iOS 앱(`japenese-study`)의 기획·디자인 문서 모음입니다.
+일본어 학습 iOS 앱(`japanese-study`)의 기획·디자인 문서 모음입니다.
 
 ## 문서 목록
 
@@ -23,7 +23,7 @@
 ## 레퍼런스
 
 - UI 레퍼런스: [`../reperence/layout_01.png`](../reperence/layout_01.png)
-- Xcode 프로젝트: [`../japenese-study/`](../japenese-study/)
+- Xcode 프로젝트: [`../japanese-study/`](../japanese-study/)
 
 ## 현재 구현 상태 (v.0.1.1 — 2026-07-06)
 

@@ -1,4 +1,4 @@
-# Agent Guide — japenese-study
+# Agent Guide — japanese-study
 
 AI 에이전트(Cursor 등)가 이 프로젝트에서 작업할 때 참조하는 **루트 진입 문서**입니다.
 
@@ -20,7 +20,7 @@ AI 에이전트(Cursor 등)가 이 프로젝트에서 작업할 때 참조하는
 
 > iOS(SwiftUI) 일본어 문자 학습 앱 — **Alphabet 탭**에서 히라가나·가타카나 단계 학습.
 
-- **Xcode 프로젝트:** `japenese-study/japenese-study/`
+- **Xcode 프로젝트:** `japanese-study/japanese-study/`
 - **UI 레퍼런스:** `reperence/layout_01.png`
 - **기본 브랜치:** `main`
 
@@ -70,7 +70,7 @@ docs/git-Policy.md 정책에 따라:
 ## 코드 구조 (에이전트용)
 
 ```
-japenese-study/japenese-study/
+japanese-study/japanese-study/
 ├── ContentView.swift          # TabView 루트
 ├── Theme/
 │   ├── AppColor.swift

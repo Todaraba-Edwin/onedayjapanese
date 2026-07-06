@@ -1,7 +1,7 @@
-# SwiftStudy — japenese-study 프로젝트 학습 노트
+# SwiftStudy — japanese-study 프로젝트 학습 노트
 
 > AI 코딩을 하더라도 **개념을 알면 에이전트와 더 정확하게 소통**할 수 있습니다.  
-> 이 문서는 `japenese-study` 앱을 만들며 실제로 쓴 Swift / SwiftUI / UIKit API를 정리한 공부 노트입니다.
+> 이 문서는 `japanese-study` 앱을 만들며 실제로 쓴 Swift / SwiftUI / UIKit API를 정리한 공부 노트입니다.
 
 ---
 
@@ -26,11 +26,11 @@
 
 ### `@main` + `App` 프로토콜
 
-앱의 진입점입니다. `japenese_studyApp.swift`에서 앱 전체 초기 설정을 합니다.
+앱의 진입점입니다. `JapaneseStudyApp.swift`에서 앱 전체 초기 설정을 합니다.
 
 ```swift
 @main
-struct japenese_studyApp: App {
+struct JapaneseStudyApp: App {
     init() {
         // 앱 시작 시 1회 실행 — 전역 UI 설정에 적합
         AppNavigationAppearance.configure()
@@ -52,7 +52,7 @@ struct japenese_studyApp: App {
 | `WindowGroup` | iOS에서 하나의 윈도우(화면) 제공 |
 | `init()` | View 생성 전 전역 설정 — `UINavigationBar.appearance()` 등 |
 
-**프로젝트 파일:** `japenese_studyApp.swift`
+**프로젝트 파일:** `JapaneseStudyApp.swift`
 
 ---
 
@@ -299,7 +299,7 @@ UINavigationBar.appearance().standardAppearance = appearance  // 스크롤 후 c
 네비게이션 바와 같은 패턴입니다.
 
 ```swift
-// japenese_studyApp.swift
+// japanese_studyApp.swift
 let tabBarAppearance = UITabBarAppearance()
 tabBarAppearance.configureWithTransparentBackground()
 tabBarAppearance.backgroundEffect = nil
@@ -573,7 +573,7 @@ NavigationStack {
 
 | 주제 | 파일 |
 |------|------|
-| 앱 진입·전역 설정 | `japenese_studyApp.swift` |
+| 앱 진입·전역 설정 | `JapaneseStudyApp.swift` |
 | 탭 + 루트 배경 | `ContentView.swift` |
 | Alphabet 화면 | `Views/Alphabet/AlphabetView.swift` |
 | 네비게이션 바 | `Theme/Modifiers/AppNavigationStyle.swift` |

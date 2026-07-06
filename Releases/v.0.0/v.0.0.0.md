@@ -17,7 +17,7 @@
 - `docs/git-Policy.md` — 브랜치·SemVer·태그·Release 정책
 - `agent.md` — AI 에이전트 소통 가이드 (루트)
 - `Releases/` — 버전별 릴리스 노트 폴더 (`v.{MAJOR}.{MINOR}/` 단위)
-- Git 저장소를 워크스페이스 루트(`japenese-study/`)로 통합
+- Git 저장소를 워크스페이스 루트(`japanese-study/`)로 통합
 
 ## Docs
 

@@ -12,8 +12,8 @@
 	"argv": [
 		"/opt/homebrew/bin/xcode-build-server"
 	],
-	"workspace": "/Users/edwin/develop/japenese-study/japenese-study/japenese-study.xcodeproj/project.xcworkspace",
-	"build_root": "/Users/edwin/Library/Developer/Xcode/DerivedData/japenese-study-cmnnkpbbhvjjmkesvpaxcqdeyglu",
-	"scheme": "japenese-study",
+	"workspace": "/Users/edwin/develop/japanese-study/japanese-study/japanese-study.xcodeproj/project.xcworkspace",
+	"build_root": "/Users/edwin/Library/Developer/Xcode/DerivedData/japanese-study-cmnnkpbbhvjjmkesvpaxcqdeyglu",
+	"scheme": "japanese-study",
 	"kind": "xcode"
 }

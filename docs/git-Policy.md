@@ -1,6 +1,6 @@
-# Git Policy — japenese-study
+# Git Policy — japanese-study
 
-이 문서는 `japenese-study` 저장소의 브랜치, 커밋, 태그, Release 문서 관리 정책을 정의합니다.
+이 문서는 `japanese-study` 저장소의 브랜치, 커밋, 태그, Release 문서 관리 정책을 정의합니다.
 
 ---
 
@@ -19,7 +19,7 @@
 ## 1. 저장소 구조
 
 ```
-japenese-study/              # Git 루트
+japanese-study/              # Git 루트
 ├── agent.md                 # AI 에이전트 소통 가이드 (루트)
 ├── docs/                    # 기획·디자인·학습·정책 문서
 │   ├── README.md
@@ -32,7 +32,7 @@ japenese-study/              # Git 루트
 │   │   └── v.0.0.0.md
 │   └── v.0.1/
 │       └── v.0.1.1.md
-├── japenese-study/          # Xcode 프로젝트
+├── japanese-study/          # Xcode 프로젝트
 ├── reperence/               # UI 레퍼런스 이미지
 └── buildServer.json
 ```

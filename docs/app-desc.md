@@ -1,10 +1,10 @@
-# App Description — japenese-study
+# App Description — japanese-study
 
 ## 1. 앱 개요
 
 | 항목 | 내용 |
 |------|------|
-| **앱 이름** | japenese-study |
+| **앱 이름** | japanese-study |
 | **플랫폼** | iOS (SwiftUI) |
 | **목적** | 일본어 초보자가 문자(히라가나·가타카나)부터 체계적으로 학습 |
 | **언어** | UI: 한국어 · 학습 콘텐츠: 일본어(히라가나/가타카나) + 로마자 |
@@ -106,9 +106,9 @@ TabView
 ### 프로젝트 구조 (현재)
 
 ```
-japenese-study/japenese-study/
+japanese-study/japanese-study/
 ├── ContentView.swift
-├── japenese_studyApp.swift
+├── japanese_studyApp.swift
 ├── Models/
 │   └── AlphabetChapter.swift
 └── Views/Alphabet/
