@@ -129,8 +129,9 @@ japanese-study/japanese-study/
 | `v.0.0.0` | Git 정책·Release 체계 수립 |
 | `v.0.1.4` | 문서 인덱스·원격 태그 정책 |
 | `v.0.1.5` | Alphabet·챕터 카드 간격 통일 (`menuCardStack`) |
+| `v.0.1.6` | iOS App Icon · web 메타 아이콘 |
 
-최신 릴리스 노트: [`Releases/v.0.1/v.0.1.5.md`](Releases/v.0.1/v.0.1.5.md)
+최신 릴리스 노트: [`Releases/v.0.1/v.0.1.6.md`](Releases/v.0.1/v.0.1.6.md)
 
 ---
 
