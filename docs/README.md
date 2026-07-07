@@ -22,6 +22,7 @@
 | v.0.1.4 | [`../Releases/v.0.1/v.0.1.4.md`](../Releases/v.0.1/v.0.1.4.md) |
 | v.0.1.5 | [`../Releases/v.0.1/v.0.1.5.md`](../Releases/v.0.1/v.0.1.5.md) |
 | v.0.1.6 | [`../Releases/v.0.1/v.0.1.6.md`](../Releases/v.0.1/v.0.1.6.md) |
+| v.0.1.7 | [`../Releases/v.0.1/v.0.1.7.md`](../Releases/v.0.1/v.0.1.7.md) |
 
 에이전트 진입 문서: [`../agent.md`](../agent.md)
 
@@ -30,14 +31,15 @@
 - UI 레퍼런스: [`../reperence/layout_01.png`](../reperence/layout_01.png)
 - Xcode 프로젝트: [`../japanese-study/`](../japanese-study/)
 
-## 현재 구현 상태 (v.0.1.6 — 2026-07-07)
+## 현재 구현 상태 (v.0.1.7 — 2026-07-07)
 
 - **앱 브랜드**: 홈 화면 표시 이름 **원데이재페니즈**, 번들 ID `edwin.OneDayJapanese`
 - **앱 아이콘**: oneday japanese 파도 무드 — iOS `AppIcon` + `web/` 메타 아이콘
-- **Alphabet** 탭: 히라가나 · 가타카나 진입 (`menuCardStack` 16pt 카드 간격)
+- **Alphabet** 탭: 인트로 안내 문구(`AlphabetIntroHeader`) + 히라가나 · 가타카나 카드 (`menuCardStack` 16pt)
 - **히라가나 홈**: Ch.01 · Ch.02 — Alphabet과 동일한 카드 스택 간격 (`NavigationMenuCard`)
 - **히라가나 Ch.01**: 기본 50음 — 콘텐츠 준비 중
 - **히라가나 Ch.02**: 장음 · 촉음 · 요음 — 예시·콘텐츠 준비 중
 - **가타카나**: 플레이스홀더
 - **파도 무드 UI** + 디자인 시스템 적용 완료
-- **개발 브랜치**: `dev-ios` (iOS UI 작업)
+- **Git 정책**: `dev-desk`(macOS) · `dev-ios`(iOS) · `task/*` Task 워크플로
+- **개발 브랜치**: `dev-desk` (macOS 작업)

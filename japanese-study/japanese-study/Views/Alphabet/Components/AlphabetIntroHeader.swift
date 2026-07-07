@@ -5,7 +5,7 @@
 
 import SwiftUI
 
-/// Alphabet 탭 상단 — 파도 무드 인트로
+/// Alphabet 탭 상단 — 하단 네비게이션 카드를 안내하는 문구 (선택 UI 아님)
 struct AlphabetIntroHeader: View {
     var body: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
@@ -24,13 +24,23 @@ struct AlphabetIntroHeader: View {
                 .foregroundStyle(AppColor.textSecondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(AppSpacing.medium)
-        .appCardStyle()
     }
 }
 
 #Preview {
-    AlphabetIntroHeader()
-        .padding()
-        .appScreenBackground()
+    VStack(spacing: AppSpacing.large) {
+        AlphabetIntroHeader()
+
+        NavigationMenuCard {
+            AlphabetMenuRow(
+                japaneseTitle: "ひらがな",
+                koreanTitle: "히라가나",
+                subtitle: "기본 음절",
+                systemImage: "textformat.abc",
+                tintColor: AppColor.accentHiragana
+            )
+        }
+    }
+    .padding(AppSpacing.screenHorizontal)
+    .appScreenBackground()
 }
