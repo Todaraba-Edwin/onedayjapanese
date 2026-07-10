@@ -138,6 +138,7 @@
 |------|------|-----|-----------|
 | 카드 **사이** 간격 | `AppSpacing.menuCardStack` | **16pt** | Alphabet 히라가나↔가타카나, 히라가나 홈 Ch.01↔Ch.02 |
 | 카드 **내부** 패딩 | `AppSpacing.medium` | **16pt** | `NavigationMenuCard` |
+| 카드 **코너 라디우스** | `AppSpacing.cardRadius` | **16pt** | `NavigationMenuCard`, `CollectionKanaCard`, Ch.01 학습 카드 공통 |
 | 카드 **바깥** 좌우 | `AppSpacing.screenHorizontal` | **20pt** | ScrollView 콘텐츠 |
 | 섹션(헤더↔카드 묶음) 간격 | `AppSpacing.large` | **24pt** | Alphabet 인트로↔메뉴 카드 |
 
