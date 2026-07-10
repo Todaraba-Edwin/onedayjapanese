@@ -13,7 +13,7 @@ struct AlphabetView: View {
                 VStack(alignment: .leading, spacing: AppSpacing.large) {
                     AlphabetIntroHeader()
 
-                    VStack(spacing: AppSpacing.menuCardStack) {
+                    VStack(alignment: .leading, spacing: AppSpacing.menuCardStack) {
                         NavigationLink {
                             HiraganaHomeView()
                         } label: {
