@@ -229,8 +229,8 @@ private struct StrokeAnnotatedKanaView: View {
                                 .fill(AppColor.waveNear.opacity(0.9))
                         )
                         .position(
-                            x: geometry.size.width * marker.x,
-                            y: geometry.size.height * marker.y
+                            x: geometry.size.width * marker.relativeX,
+                            y: geometry.size.height * marker.relativeY
                         )
                 }
             }

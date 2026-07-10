@@ -18,7 +18,8 @@
 9. [색상 시스템](#9-색상-시스템)
 10. [List vs ScrollView](#10-list-vs-scrollview)
 11. [Modifier 적용 순서](#11-modifier-적용-순서)
-12. [에이전트와 소통할 때 쓰는 표현](#12-에이전트와-소통할--쓰는-표현)
+12. [에이전트와 소통할 때 쓰는 표현](#12-에이전트와-소통할-때-쓰는-표현)
+13. [식별자 네이밍 & SwiftLint](#13-식별자-네이밍--swiftlint)
 
 ---
 
@@ -569,6 +570,70 @@ NavigationStack {
 
 ---
 
+## 13. 식별자 네이밍 & SwiftLint
+
+### Swift 언어 규칙이 아님
+
+`Variable name 'y' should be between 3 and 40 characters long` 메시지는 **Swift 컴파일러 규칙이 아니라** [SwiftLint](https://github.com/realm/SwiftLint)의 **`identifier_name`** 규칙입니다.
+
+| 구분 | 설명 |
+|------|------|
+| **Swift 언어** | `x`, `y`, `i` 같은 1~2자 이름도 문법상 허용 |
+| **SwiftLint (이 프로젝트)** | 루트 `.swiftlint.yml`에서 최소 길이를 검사 |
+| **적용 범위** | `japanese-study/japanese-study/` 소스 |
+
+### 프로젝트 설정 (`.swiftlint.yml`)
+
+```yaml
+identifier_name:
+  min_length:
+    warning: 3    # 3자 미만 → warning
+    error: 2      # 2자 미만 → error
+  allowed_symbols: ["_"]
+  excluded:
+    - id          # Identifiable 프로토콜 요구 이름
+```
+
+| 길이 | 예시 | 결과 |
+|------|------|------|
+| 1자 | `x`, `y` | **error** |
+| 2자 | `id` (제외 목록 외) | warning |
+| 3자 이상 | `relativeX`, `kana` | 통과 |
+
+### 프로젝트 네이밍 규칙 (확정)
+
+- **변수·상수·프로퍼티 이름은 3자 이상**을 기본으로 한다.
+- 의미가 드러나게 짓는다. (예: `x` → `relativeX`, `y` → `relativeY`)
+- **예외**: Swift/SwiftUI 프로토콜이 요구하는 이름 (`Identifiable.id` 등) — `.swiftlint.yml` `excluded`에 등록.
+
+### 실제 사례 — 획순 마커 좌표
+
+```swift
+// ❌ SwiftLint 위반
+struct HiraganaStrokeMarker {
+    let x: Double
+    let y: Double
+}
+
+// ✅ 프로젝트 규칙 준수
+struct HiraganaStrokeMarker {
+    let number: Int
+    let relativeX: Double   // 글자 영역 기준 0~1 가로 위치
+    let relativeY: Double   // 글자 영역 기준 0~1 세로 위치
+}
+```
+
+> `.position(x:y:)`처럼 **API 파라미터 라벨**의 `x`, `y`는 변수 선언이 아니므로 `identifier_name` 대상이 아닙니다.
+
+### 에이전트 요청 예시
+
+| ❌ | ✅ |
+|----|-----|
+| "`x`, `y` 좌표 추가" | "`relativeX`, `relativeY` 상대 좌표(0~1)로 `HiraganaStrokeMarker` 정의" |
+| "짧은 변수명 OK" | "SwiftLint `identifier_name` — 변수명 3자 이상, `docs/README.md` 코딩 규칙 참고" |
+
+---
+
 ## 부록 — 프로젝트 파일 맵
 
 | 주제 | 파일 |
@@ -595,4 +660,4 @@ NavigationStack {
 
 ---
 
-*마지막 업데이트: 2026-07-06 — 파도 배경 + 네비게이션 바 스타일 작업 기준*
+*마지막 업데이트: 2026-07-10 — SwiftLint 식별자 네이밍 규칙 추가*

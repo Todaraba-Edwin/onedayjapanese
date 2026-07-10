@@ -11,6 +11,17 @@
 | [SwiftStudy.md](./SwiftStudy.md) | 프로젝트에서 쓴 Swift/SwiftUI API 학습 노트 (에이전트 소통용) |
 | [git-Policy.md](./git-Policy.md) | 브랜치, SemVer, 태그, Release 문서 정책 |
 
+## 코딩 규칙 (Swift)
+
+| 항목 | 규칙 |
+|------|------|
+| **변수·상수·프로퍼티명** | **3자 이상** (SwiftLint `identifier_name`, 루트 `.swiftlint.yml`) |
+| **네이밍 원칙** | 역할이 드러나는 이름 사용 (예: `relativeX`, `selectedGroupIndex`) |
+| **예외** | 프로토콜 요구 이름 (`Identifiable.id` 등 — lint `excluded` 등록) |
+| **상세** | [SwiftStudy.md §13](./SwiftStudy.md#13-식별자-네이밍--swiftlint) |
+
+> `x`, `y` 같은 1~2자 이름은 **Swift 언어상 허용**되지만, 이 프로젝트에서는 **SwiftLint 정적 분석 규칙**으로 금지한다.
+
 ## Release 노트
 
 | 버전 | 경로 |
@@ -24,6 +35,7 @@
 | v.0.1.6 | [`../Releases/v.0.1/v.0.1.6.md`](../Releases/v.0.1/v.0.1.6.md) |
 | v.0.1.7 | [`../Releases/v.0.1/v.0.1.7.md`](../Releases/v.0.1/v.0.1.7.md) |
 | v.0.1.8 | [`../Releases/v.0.1/v.0.1.8.md`](../Releases/v.0.1/v.0.1.8.md) |
+| v.0.1.9 | [`../Releases/v.0.1/v.0.1.9.md`](../Releases/v.0.1/v.0.1.9.md) |
 
 에이전트 진입 문서: [`../agent.md`](../agent.md)
 
@@ -32,15 +44,15 @@
 - UI 레퍼런스: [`../reperence/layout_01.png`](../reperence/layout_01.png)
 - Xcode 프로젝트: [`../japanese-study/`](../japanese-study/)
 
-## 현재 구현 상태 (v.0.1.8 — 2026-07-10)
+## 현재 구현 상태 (v.0.1.9 — 2026-07-10)
 
 - **앱 브랜드**: 홈 화면 표시 이름 **원데이재페니즈**, 번들 ID `edwin.OneDayJapanese`
 - **앱 아이콘**: oneday japanese 파도 무드 — iOS `AppIcon` + `web/` 메타 아이콘
 - **Alphabet** 탭: 인트로 안내 문구(`AlphabetIntroHeader`) + 히라가나 · 가타카나 카드 (`menuCardStack` 16pt)
 - **히라가나 홈**: Ch.01 · Ch.02 — Alphabet과 동일한 카드 스택 간격 (`NavigationMenuCard`)
-- **히라가나 Ch.01**: 아행~나행 25자 — 행 선택 · 모아보기(3열 카드) · 개별보기(캐러셀) · 획순 오버레이
+- **히라가나 Ch.01**: 아행~나행 25자 — 행 선택 · 모아보기 · 개별보기 · 획순 오버레이 (`relativeX`/`relativeY`)
 - **히라가나 Ch.02**: 장음 · 촉음 · 요음 — 예시·콘텐츠 준비 중
 - **가타카나**: 플레이스홀더
-- **파도 무드 UI** + 디자인 시스템 적용 완료
-- **Git 정책**: `dev-desk`(macOS) · `dev-ios`(iOS) · `task/*` Task 워크플로
+- **코딩 규칙**: 변수·프로퍼티명 3자 이상 (SwiftLint `identifier_name`)
+- **Git 정책**: Task 5단계 — `dev-desk` → 빌드 → `main` → `dev-*` 동기화 → push
 - **개발 브랜치**: `dev-desk` (macOS 작업)
