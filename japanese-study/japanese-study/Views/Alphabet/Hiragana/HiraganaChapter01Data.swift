@@ -7,8 +7,8 @@ import Foundation
 
 struct HiraganaStrokeMarker {
     let number: Int
-    let x: Double
-    let y: Double
+    let relativeX: Double
+    let relativeY: Double
 }
 
 struct HiraganaKanaCharacter {
@@ -50,42 +50,42 @@ enum HiraganaChapter01Data {
                     kana: "あ",
                     romaji: "a",
                     strokeMarkers: [
-                        .init(number: 1, x: 0.16, y: 0.28),
-                        .init(number: 2, x: 0.42, y: 0.04),
-                        .init(number: 3, x: 0.58, y: 0.46),
+                        .init(number: 1, relativeX: 0.16, relativeY: 0.28),
+                        .init(number: 2, relativeX: 0.42, relativeY: 0.04),
+                        .init(number: 3, relativeX: 0.58, relativeY: 0.46),
                     ]
                 ),
                 .init(
                     kana: "い",
                     romaji: "i",
                     strokeMarkers: [
-                        .init(number: 1, x: 0.3, y: 0.1),
-                        .init(number: 2, x: 0.64, y: 0.14),
+                        .init(number: 1, relativeX: 0.3, relativeY: 0.1),
+                        .init(number: 2, relativeX: 0.64, relativeY: 0.14),
                     ]
                 ),
                 .init(
                     kana: "う",
                     romaji: "u",
                     strokeMarkers: [
-                        .init(number: 1, x: 0.3, y: 0.18),
-                        .init(number: 2, x: 0.18, y: 0.44),
+                        .init(number: 1, relativeX: 0.3, relativeY: 0.18),
+                        .init(number: 2, relativeX: 0.18, relativeY: 0.44),
                     ]
                 ),
                 .init(
                     kana: "え",
                     romaji: "e",
                     strokeMarkers: [
-                        .init(number: 1, x: 0.28, y: 0.16),
-                        .init(number: 2, x: 0.18, y: 0.4),
+                        .init(number: 1, relativeX: 0.28, relativeY: 0.16),
+                        .init(number: 2, relativeX: 0.18, relativeY: 0.4),
                     ]
                 ),
                 .init(
                     kana: "お",
                     romaji: "o",
                     strokeMarkers: [
-                        .init(number: 1, x: 0.16, y: 0.34),
-                        .init(number: 2, x: 0.4, y: 0.04),
-                        .init(number: 3, x: 0.58, y: 0.14),
+                        .init(number: 1, relativeX: 0.16, relativeY: 0.34),
+                        .init(number: 2, relativeX: 0.4, relativeY: 0.04),
+                        .init(number: 3, relativeX: 0.58, relativeY: 0.14),
                     ]
                 ),
             ]
@@ -141,7 +141,7 @@ enum HiraganaChapter01Data {
     ]
 
     private static func markers(_ count: Int) -> [HiraganaStrokeMarker] {
-        let positions: [(Double, Double)] = [
+        let markerPositions: [(relativeX: Double, relativeY: Double)] = [
             (0.22, 0.20),
             (0.64, 0.30),
             (0.38, 0.62),
@@ -149,8 +149,8 @@ enum HiraganaChapter01Data {
         ]
 
         return (0..<count).map { index in
-            let position = positions[min(index, positions.count - 1)]
-            return .init(number: index + 1, x: position.0, y: position.1)
+            let position = markerPositions[min(index, markerPositions.count - 1)]
+            return .init(number: index + 1, relativeX: position.relativeX, relativeY: position.relativeY)
         }
     }
 }

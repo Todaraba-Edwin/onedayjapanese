@@ -12,6 +12,8 @@ identifier_name:
     warning: 3
     error: 2
   allowed_symbols: ["_"]
+  excluded:
+    - id   # Identifiable 프로토콜 요구 이름
 
 type_name:
   min_length:

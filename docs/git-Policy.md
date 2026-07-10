@@ -48,17 +48,17 @@ japanese-study/              # Git 루트
 ### 브랜치 구조
 
 ```
-main                    ← 최종 안정·배포 기준
-├── dev-desk            ← macOS — task/* 생성 · 병합 · 태그
-├── dev-ios             ← iPhone(iOS) — task/* 생성 · 병합 · 태그
-└── task/*              ← Task 작업 브랜치 (완료 후 작업 환경의 dev-*에 병합)
+main                    ← 최종 안정·배포 기준 (dev-desk 빌드 검증 후 반영)
+├── dev-desk            ← macOS — task/* 생성 · --no-ff 병합 · 태그 · 빌드 검증
+├── dev-ios             ← iPhone(iOS) — main 동기화 대상
+└── task/*              ← Task 작업 브랜치 (완료 후 dev-desk 에 --no-ff 병합)
 ```
 
 | 브랜치 | 작업 환경 | 용도 |
 |--------|-----------|------|
-| `main` | — | 최종 안정·배포 기준. `dev-desk` / `dev-ios`에서 검증된 내용을 반영 |
-| `dev-desk` | **macOS** | Mac에서 `task/*` 생성 · Task 완료 후 머지·태그·push |
-| `dev-ios` | **iPhone (iOS)** | iOS에서 `task/*` 생성 · Task 완료 후 머지·태그·push |
+| `main` | — | 최종 안정·배포 기준. `dev-desk`에서 빌드 검증 후 반영 |
+| `dev-desk` | **macOS** | Mac에서 `task/*` 생성 · Task 완료 후 `--no-ff` 병합 · 태그 |
+| `dev-ios` | **iPhone (iOS)** | iOS 작업용 통합 브랜치. `main` 반영 후 동기화 |
 | `task/*` | macOS / iOS | **새 Task** 단위 작업 브랜치 (작업 환경의 `dev-*`에서 생성) |
 | `fix/*` | — | 긴급 버그 수정 (필요 시 `task/` 대신 사용) |
 
@@ -66,18 +66,19 @@ main                    ← 최종 안정·배포 기준
 
 | 구분 | 언제 | 브랜치 |
 |------|------|--------|
-| **새 Task** | 독립된 목표·릴리스 단위로 **새로 시작**할 때 | 작업 환경의 `dev-desk` / `dev-ios`에서 `task/{주제}` 생성 → 완료 후 **같은 `dev-*`에 병합** |
-| **연속 작업** | 같은 Task·같은 버전 범위를 **이어갈** 때 | `dev-desk`(macOS) 또는 `dev-ios`(iOS)에서 계속 |
+| **새 Task** | 독립된 목표·릴리스 단위로 **새로 시작**할 때 | `dev-desk`에서 `task/{주제}` 생성 → 완료 후 §3 5단계 수행 |
+| **연속 작업** | 같은 Task·같은 버전 범위를 **이어갈** 때 | 기존 `task/*` 브랜치에서 계속 |
 
-> **작업 환경에 맞는 `dev-*`에서 `task/*`를 분기**하고, 완료 후 **같은 `dev-*`에 병합·태그**한다.
+> **macOS `dev-desk`에서 `task/*`를 분기**하고, 완료 후 **`dev-desk` → 빌드 검증 → `main` → `dev-desk`·`dev-ios` 동기화** 순으로 진행한다.
 
 ### 규칙
 
-- **macOS 새 Task** → `dev-desk`에서 `task/{주제}` 생성 → 완료 후 `dev-desk`에 병합 · 태그 · push
-- **iOS 새 Task** → `dev-ios`에서 `task/{주제}` 생성 → 완료 후 `dev-ios`에 병합 · 태그 · push
-- 버전 태그 (`v.x.y.z`)는 **`dev-desk` 또는 `dev-ios`의 병합 커밋**에만 생성
+- **macOS 새 Task** → `dev-desk`에서 `task/{주제}` 생성 → 작업·릴리스 커밋 → `dev-desk`에 `--no-ff` 병합 · 태그
+- **iOS 작업** → `dev-ios`에서 `task/{주제}` 생성 가능. macOS Task 완료 후에는 **`main` 기준으로 `dev-ios` 동기화**
+- 버전 태그 (`v.x.y.z`)는 **`dev-desk`의 `--no-ff` 병합 커밋** HEAD에 생성
 - 태그된 커밋은 **force push 금지**
-- `main`은 안정 스냅샷을 반영할 때만 갱신
+- `main`은 `dev-desk`에서 **빌드 검증 후**에만 갱신
+- `main` 반영 후 **`dev-desk` · `dev-ios`를 `main`과 동기화**한다
 
 ### Task 브랜치 명명
 
@@ -98,24 +99,29 @@ task/{짧은-주제}
 
 ## 3. Task 워크플로
 
-**새 Task**를 시작할 때 아래 순서를 따른다. **연속 작업**은 해당 환경의 `dev-desk` / `dev-ios`에서 이어간다.
+**새 Task**를 시작할 때 아래 **5단계**를 따른다. **연속 작업**은 `task/*` 브랜치에서 이어가고, Task 완료 시점에만 2~5단계를 수행한다.
 
-### 절차 요약
+### 절차 요약 (macOS / dev-desk 기준)
 
 ```
-1. 작업 환경의 dev-* 에서 task/{주제} 브랜치 생성
-2. task/* 에서 작업 + Release 문서 작성 (§4·§5)
-3. 같은 dev-desk 또는 dev-ios 에 병합 (merge)
-4. 병합 커밋에 버전 태그 (v.MAJOR.MINOR.PATCH)
-5. origin 에 dev-* · 태그 push
+1. dev-desk 에서 task/{주제} 생성 → 작업 · Release 문서 · 커밋 · 태그 준비
+2. dev-desk 에 --no-ff 병합 → 병합 커밋 HEAD 에 annotated tag 생성
+3. 빌드 검증 — 문제 없으면 main 에 --no-ff 병합
+4. main 결과물을 dev-desk · dev-ios 에 동기화 (--no-ff)
+5. main · dev-desk · dev-ios · 태그 를 origin 에 push
 ```
 
-| 작업 환경 | Task 생성 · 병합 · 태그 · push |
-|-----------|-------------------------------|
-| macOS | `dev-desk` |
-| iPhone (iOS) | `dev-ios` |
+| 단계 | 브랜치 | 핵심 |
+|------|--------|------|
+| 1 | `task/*` | 구현 + Release 문서 + 커밋 |
+| 2 | `dev-desk` | `--no-ff` 병합 + `v.x.y.z` 태그 |
+| 3 | `dev-desk` → `main` | 빌드 통과 후 `main` 병합 |
+| 4 | `main` → `dev-desk` · `dev-ios` | 통합 브랜치 동기화 |
+| 5 | `origin` | 세 브랜치 + 태그 push |
 
-### 1) Task 브랜치 생성
+> iOS 전용 Task는 `dev-ios`에서 `task/*`를 생성할 수 있으나, **릴리스·태그·main 반영 흐름은 macOS `dev-desk` 기준**으로 통일한다. iOS 쪽은 4단계에서 `main`을 `dev-ios`에 병합해 맞춘다.
+
+### 1) Task 브랜치 생성 · 작업 · 릴리스 커밋
 
 **macOS에서 작업할 때:**
 
@@ -125,7 +131,21 @@ git pull origin dev-desk
 git checkout -b task/hiragana-ch01-grid
 ```
 
-**iPhone(iOS)에서 작업할 때:**
+- 기능·문서 작업을 `task/*` 브랜치에서 진행
+- Task 완료 시 §4 SemVer에 맞는 버전 번호를 정하고, §5 규칙에 따라 Release 문서 작성  
+  예: `Releases/v.0.1/v.0.1.8.md`
+- `docs/README.md` 등 연관 문서 갱신 (§5 참고)
+- Release 문서 **브랜치** 항목에는 `dev-desk` 기록
+- **한 커밋(또는 논리 단위 커밋)으로 작업·릴리스 문서를 함께 커밋**
+
+```bash
+git add .
+git commit -m "feat: 히라가나 Ch.01 50음도 그리드 (v.0.1.8)"
+```
+
+> 1단계에서는 `task/*` HEAD에 **태그를 붙이지 않는다.** 태그는 2단계 `dev-desk` 병합 커밋 HEAD에 생성한다.
+
+**iPhone(iOS)에서 Task를 시작할 때** (선택):
 
 ```bash
 git checkout dev-ios
@@ -133,66 +153,76 @@ git pull origin dev-ios
 git checkout -b task/hiragana-ch01-grid
 ```
 
-### 2) 작업 · Release 문서
-
-- 기능·문서 작업을 `task/*` 브랜치에서 커밋
-- Task 완료 시 §4 SemVer에 맞는 버전 번호를 정하고, §5 규칙에 따라 Release 문서 작성  
-  예: `Releases/v.0.1/v.0.1.7.md` (폴더 `v.0.0` / `v.0.1` … 마이너 단위)
-- `docs/README.md` 등 연관 문서 갱신 (§5 참고)
-- Release 문서 **브랜치** 항목에는 병합 대상 (`dev-desk` 또는 `dev-ios`) 기록
-
-### 3) `dev-desk` / `dev-ios` 병합
-
-**macOS (dev-desk):**
+### 2) `dev-desk`에 `--no-ff` 병합 · 태그 생성
 
 ```bash
 git checkout dev-desk
 git pull origin dev-desk
 git merge --no-ff task/hiragana-ch01-grid -m "merge: task/hiragana-ch01-grid — 히라가나 Ch.01 50음도 그리드"
+git tag -a v.0.1.8 -m "v.0.1.8 — 히라가나 Ch.01 50음도 그리드"
 ```
 
-**iPhone iOS (dev-ios):**
-
-```bash
-git checkout dev-ios
-git pull origin dev-ios
-git merge --no-ff task/hiragana-ch01-grid -m "merge: task/hiragana-ch01-grid — 히라가나 Ch.01 50음도 그리드"
-```
-
-- **`--no-ff`** 권장 — Task 단위 머지 이력을 남긴다
+- **`--no-ff` 필수** — Task 단위 병합 이력을 남긴다
 - 충돌 해결 후 병합 커밋 완료
-
-### 4) 버전 태그 (병합 커밋 HEAD)
-
-```bash
-git tag -a v.0.1.7 -m "v.0.1.7 — 히라가나 Ch.01 50음도 그리드"
-```
-
-- 태그는 **`dev-desk` 또는 `dev-ios`의 병합 완료 커밋**에 붙인다
-- `task/*` 브랜치 HEAD에 직접 태그하지 않는다
+- 태그는 **`dev-desk`의 병합 완료 커밋 HEAD**에 붙인다 (`task/*` HEAD에 직접 태그하지 않음)
 - 태그 형식: **`v.MAJOR.MINOR.PATCH`** (§4)
-
-### 5) 원격 push · 정리
-
-**macOS (dev-desk):**
-
-```bash
-git push origin dev-desk
-git push origin v.0.1.7
-```
-
-**iPhone iOS (dev-ios):**
-
-```bash
-git push origin dev-ios
-git push origin v.0.1.7
-```
 
 ```bash
 # (선택) Task 브랜치 삭제
 git branch -d task/hiragana-ch01-grid
-git push origin --delete task/hiragana-ch01-grid   # 원격에 올렸을 때만
 ```
+
+### 3) 빌드 검증 → `main` 병합
+
+`dev-desk`에서 빌드·기본 동작을 확인한 뒤, **문제가 없을 때만** `main`에 반영한다.
+
+```bash
+# 빌드 검증 (macOS / Xcode)
+xcodebuild -project japanese-study/japanese-study.xcodeproj \
+  -scheme japanese-study \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
+  build
+```
+
+빌드·검증 통과 후:
+
+```bash
+git checkout main
+git pull origin main
+git merge --no-ff dev-desk -m "merge: dev-desk — v.0.1.8 히라가나 Ch.01 50음도 그리드"
+```
+
+- 빌드 실패·런타임 이상 시 **`main` 병합을 보류**하고 `dev-desk` / `task/*`에서 수정 후 2단계부터 재진행
+- `main` 병합에도 **`--no-ff`** 를 사용한다
+
+### 4) `main` 결과물로 `dev-desk` · `dev-ios` 동기화
+
+`main` 반영 후 통합 브랜치를 `main`과 맞춘다.
+
+```bash
+git checkout dev-desk
+git merge --no-ff main -m "merge: main — v.0.1.8 동기화"
+
+git checkout dev-ios
+git pull origin dev-ios
+git merge --no-ff main -m "merge: main — v.0.1.8 동기화"
+```
+
+- `dev-desk` · `dev-ios` 모두 **`main` 기준으로 `--no-ff` 병합**하여 동일한 결과물을 유지
+- 동기화 후 `git diff main dev-desk`, `git diff main dev-ios`로 차이가 없는지 확인
+
+### 5) `origin`에 push
+
+```bash
+git push origin dev-desk
+git push origin main
+git push origin dev-ios
+git push origin v.0.1.8
+```
+
+- **`main` · `dev-desk` · `dev-ios` · 태그**를 모두 `origin`에 반영한다
+- 로컬에만 태그·브랜치를 두지 않는다
+- 원격에 올렸던 `task/*` 브랜치는 정리: `git push origin --delete task/{주제}`
 
 ---
 
@@ -244,7 +274,7 @@ Releases/v.{MAJOR}.{MINOR}/v.{MAJOR}.{MINOR}.{PATCH}.md
 
 - Task **완료 시** Release 문서를 먼저 작성·커밋 (`task/*` 또는 연속 작업 브랜치)
 - 버전·폴더는 §4 SemVer에 맞춘다 (`Releases/v.0.0/v.0.0.0.md`, `Releases/v.0.1/v.0.1.1.md` …)
-- 태그는 Release 문서가 포함된 **`dev-desk` 또는 `dev-ios` 병합 커밋**에 붙임 (§3)
+- 태그는 Release 문서가 포함된 **`dev-desk` `--no-ff` 병합 커밋**에 붙임 (§3)
 
 ### `docs/README.md` 갱신 (필수)
 
@@ -320,40 +350,47 @@ merge: task/hiragana-ch01-grid — 히라가나 Ch.01 50음도 그리드
 git remote add origin https://github.com/Todaraba-Edwin/onedayjapanese.git
 ```
 
-### 릴리스 절차 (Task → dev-* → 태그 → push)
+### 릴리스 절차 (Task → dev-desk → main → 동기화 → push)
 
-§3 Task 워크플로에 따른 최종 단계. `{dev}` 는 작업 환경에 따라 `dev-desk` 또는 `dev-ios`.
+§3 Task 워크플로 전체 요약:
 
 ```bash
-# 0) 새 Task — 작업 환경의 dev-* 에서 분기
-git checkout dev-desk && git pull origin dev-desk   # macOS
-# git checkout dev-ios && git pull origin dev-ios   # iOS
+# 1) task/* — 작업 · Release 문서 · 커밋
+git checkout dev-desk && git pull origin dev-desk
 git checkout -b task/{주제}
+# ... 작업 · Releases/v.0.1/v.0.1.{N}.md · docs/README.md ...
+git commit -m "feat: {요약} (v.0.1.{N})"
 
-# 1) task/* 에서 작업·Release 문서·docs/README.md 갱신 완료
-
-# 2) 같은 dev-* 에 병합
-git checkout {dev}          # dev-desk (macOS) 또는 dev-ios (iOS)
+# 2) dev-desk — --no-ff 병합 · 태그
+git checkout dev-desk
 git merge --no-ff task/{주제} -m "merge: task/{주제} — {한 줄 요약}"
+git tag -a v.0.1.{N} -m "v.0.1.{N} — {한 줄 요약}"
 
-# 3) annotated tag — {dev} HEAD 에 붙임
-git tag -a v.0.1.7 -m "v.0.1.7 — {한 줄 요약}"
+# 3) 빌드 검증 후 main 병합
+xcodebuild -project japanese-study/japanese-study.xcodeproj \
+  -scheme japanese-study \
+  -destination 'platform=iOS Simulator,name=iPhone 17' \
+  build
+git checkout main && git pull origin main
+git merge --no-ff dev-desk -m "merge: dev-desk — v.0.1.{N} {한 줄 요약}"
 
-# 4) 원격 반영
-git push origin {dev}
-git push origin v.0.1.7
+# 4) dev-desk · dev-ios 동기화
+git checkout dev-desk
+git merge --no-ff main -m "merge: main — v.0.1.{N} 동기화"
+git checkout dev-ios && git pull origin dev-ios
+git merge --no-ff main -m "merge: main — v.0.1.{N} 동기화"
+
+# 5) origin push
+git push origin dev-desk main dev-ios v.0.1.{N}
 ```
 
 ### 원격 push 규칙
 
-- **통합 브랜치**: 릴리스·태그 후 작업 환경에 맞게 push  
-  - macOS: `git push origin dev-desk`  
-  - iOS: `git push origin dev-ios`
-- **태그**: 새 태그 생성 직후 `origin`에 반영한다. 로컬에만 태그를 두지 않는다.
+- **릴리스 완료 시** `main` · `dev-desk` · `dev-ios` · **태그**를 모두 `origin`에 push
+- **태그**: `dev-desk` 병합 직후 생성하고, 5단계에서 `origin`에 반영
 - **전체 태그 동기화**: `git push origin --tags`
-- **단일 태그만 올릴 때**: `git push origin v.0.1.7`
-- **`main` 반영**: `dev-desk` / `dev-ios` 검증 후 별도 머지·push (배포 시점에 맞춤)
-- **확인**: `git ls-remote --tags origin`
+- **단일 태그만 올릴 때**: `git push origin v.0.1.8`
+- **동기화 확인**: `git diff main dev-desk`, `git diff main dev-ios`, `git ls-remote --tags origin`
 
 > HTTP push 시 `RPC failed; HTTP 400`이 나면 `git config http.postBuffer 524288000` 후 재시도한다.
 
@@ -370,34 +407,31 @@ git push origin v.0.1.7
 
 에이전트에게 **새 Task** 작업을 요청할 때 — **작업 환경(macOS / iOS)** 을 명시한다.
 
-**macOS 예시:**
+**macOS 새 Task 요청 예시:**
 
 ```
 docs/git-Policy.md §3 Task 워크플로에 따라 (macOS / dev-desk):
 1. dev-desk 기준 task/{주제} 브랜치 생성
-2. 작업 후 Releases/v.0.1/v.0.1.{N}.md 작성 (§4·§5)
-3. docs/README.md — Release 표·현재 구현 상태 갱신
-4. dev-desk 에 merge (--no-ff)
-5. dev-desk HEAD 에 annotated tag v.0.1.{N}
-6. git push origin dev-desk && git push origin v.0.1.{N}
+2. 작업 후 Releases/v.0.1/v.0.1.{N}.md 작성 · docs/README.md 갱신 · task/* 커밋
+3. dev-desk 에 --no-ff merge + annotated tag v.0.1.{N}
+4. xcodebuild 빌드 검증 후 main 에 --no-ff merge
+5. main 을 dev-desk · dev-ios 에 --no-ff 동기화
+6. git push origin dev-desk main dev-ios v.0.1.{N}
 ```
 
-**iPhone iOS 예시:**
+**iPhone iOS 작업 시:**
 
 ```
-docs/git-Policy.md §3 Task 워크플로에 따라 (iOS / dev-ios):
-1. dev-ios 기준 task/{주제} 브랜치 생성
-2. 작업 후 Releases/v.0.1/v.0.1.{N}.md 작성 (§4·§5)
-3. docs/README.md — Release 표·현재 구현 상태 갱신
-4. dev-ios 에 merge (--no-ff)
-5. dev-ios HEAD 에 annotated tag v.0.1.{N}
-6. git push origin dev-ios && git push origin v.0.1.{N}
+docs/git-Policy.md §3에 따라:
+- iOS 전용 작업은 dev-ios 에서 task/* 생성 가능
+- 릴리스·태그·main 반영은 macOS dev-desk 흐름을 따름
+- main 반영 후 dev-ios 를 main 과 --no-ff 동기화
 ```
 
-**연속 작업**일 때는 해당 환경의 `dev-desk` / `dev-ios`에서 이어가고, Task 완료 시점에만 §3 병합·태그·push를 수행한다.
+**연속 작업**일 때는 `task/*` 브랜치에서 이어가고, Task 완료 시점에만 §3의 2~5단계를 수행한다.
 
 루트 `agent.md`에서 문서·Release 명명 규칙을 빠르게 참조할 수 있습니다.
 
 ---
 
-*최초 수립: v.0.0.0 (2026-07-06)*
+*최초 수립: v.0.0.0 (2026-07-06) · Task 워크플로 5단계 정리: 2026-07-10*

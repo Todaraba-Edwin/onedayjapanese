@@ -94,6 +94,7 @@ japanese-study/japanese-study/
 
 - 푸시된 화면에서 `NavigationLink { Destination }` 클로저 방식 사용
 - `navigationDestination`은 `NavigationStack` **루트**에만 등록
+- 변수·프로퍼티명 **3자 이상** (`SwiftLint identifier_name`) — 상세: [`docs/README.md`](docs/README.md) 코딩 규칙
 
 ---
 
